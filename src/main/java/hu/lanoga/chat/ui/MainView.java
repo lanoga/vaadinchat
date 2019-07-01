@@ -1,5 +1,8 @@
 package hu.lanoga.chat.ui;
 
+
+import com.vaadin.flow.component.login.LoginForm;
+import com.vaadin.flow.component.notification.Notification;
 import hu.lanoga.chat.entity.ChatMessage;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
@@ -15,7 +18,6 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.PWA;
-import hu.lanoga.chat.entity.ChatMessage;
 import hu.lanoga.chat.spring.MessageList;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.UnicastProcessor;
@@ -43,11 +45,33 @@ public class MainView extends VerticalLayout {
 
         add(header);
 
-        askUsername();
+        doLogin();
     }
 
     private String username;
+
+    private void doLogin()
+    {
+        LoginForm component = new LoginForm();
+        component.addLoginListener(e -> {
+            boolean isAuthenticated = true;
+            if (isAuthenticated) {
+                remove(component);
+                askUsername();
+            } else {
+                component.setError(true);
+            }
+        });
+        component.addForgotPasswordListener(click -> {
+            Notification FpwdNotif = new Notification("The email has been sent!", 3000);
+            FpwdNotif.open();
+        });
+        add(component);
+    }
+
+
     private void askUsername() {
+
         HorizontalLayout layout = new HorizontalLayout();
         TextField usernameField = new TextField();
         Button startButton = new Button("Start chat");
