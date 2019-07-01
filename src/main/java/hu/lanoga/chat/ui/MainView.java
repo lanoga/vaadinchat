@@ -1,21 +1,22 @@
-package com.example.test.spring;
+package hu.lanoga.chat.ui;
 
+import hu.lanoga.chat.entity.ChatMessage;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Paragraph;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.component.textfield.TextField;
-import org.springframework.beans.factory.annotation.Autowired;
 
 
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.PWA;
+import hu.lanoga.chat.entity.ChatMessage;
+import hu.lanoga.chat.spring.MessageList;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.UnicastProcessor;
 

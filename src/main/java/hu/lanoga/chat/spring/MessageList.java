@@ -1,4 +1,4 @@
-package com.example.test.spring;
+package hu.lanoga.chat.spring;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.Div;

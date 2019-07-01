@@ -1,5 +1,6 @@
-package com.example.test.spring;
+package hu.lanoga.chat;
 
+import hu.lanoga.chat.entity.ChatMessage;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
