@@ -3,6 +3,7 @@ package hu.lanoga.chat.ui;
 
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.textfield.EmailField;
 import hu.lanoga.chat.entity.ChatMessage;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
@@ -62,13 +63,27 @@ public class MainView extends VerticalLayout {
                 component.setError(true);
             }
         });
+
         component.addForgotPasswordListener(click -> {
-            Notification FpwdNotif = new Notification("The email has been sent!", 3000);
-            FpwdNotif.open();
+            requestPassword();
+
         });
         add(component);
     }
 
+    private void requestPassword() {
+        HorizontalLayout layout = new HorizontalLayout();
+        EmailField emailField = new EmailField();
+        emailField.setPlaceholder("Your email address");
+        Button submitButton = new Button("Request new password");
+        layout.add(emailField, submitButton);
+
+        add(layout);
+
+        submitButton.addClickListener(click -> {
+
+        });
+    }
 
     private void askUsername() {
 

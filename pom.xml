@@ -91,6 +91,11 @@
             <artifactId>vaadin-notification-flow</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-core</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
