@@ -1,6 +1,7 @@
 package hu.lanoga.chat.ui;
 
 
+import com.vaadin.flow.component.listbox.ListBox;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import hu.lanoga.chat.entity.ChatMessage;
@@ -21,6 +22,10 @@ import com.vaadin.flow.server.PWA;
 import hu.lanoga.chat.spring.MessageList;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.UnicastProcessor;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @StyleSheet("frontend://styles/styles.css")
 @Route
@@ -49,6 +54,7 @@ public class MainView extends VerticalLayout {
     }
 
     private String username;
+    private static List<String> users = new ArrayList<String>();
 
     private void doLogin()
     {
@@ -64,7 +70,7 @@ public class MainView extends VerticalLayout {
         loginButton.addClickListener(click -> {
 
             //authentication
-
+            users.add(usernameField.getValue());
             username = usernameField.getValue();
             remove(layout);
             showChat();
@@ -92,8 +98,9 @@ public class MainView extends VerticalLayout {
 
     private void showChat(){
         MessageList messageList = new MessageList();
-        add(messageList, createInputLayout());
+        add(messageList, createInputLayout(), createAsideLayout());
         expand(messageList);
+
 
         messages.subscribe(message -> {
             getUI().ifPresent(ui ->
@@ -106,6 +113,17 @@ public class MainView extends VerticalLayout {
         });
     }
 
+    private Component createAsideLayout() {
+        VerticalLayout layout = new VerticalLayout();
+
+        ListBox<String> listBox = new ListBox<>();
+
+        listBox.setItems(users);
+
+        layout.add(listBox);
+        return layout;
+    }
+
     private Component createInputLayout() {
         HorizontalLayout layout = new HorizontalLayout();
 
@@ -114,7 +132,7 @@ public class MainView extends VerticalLayout {
         sendButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         layout.add(messageField, sendButton);
-        layout.setWidth("100%");
+        layout.setWidth("70%");
         layout.expand(messageField);
 
         sendButton.addClickListener(click -> {
