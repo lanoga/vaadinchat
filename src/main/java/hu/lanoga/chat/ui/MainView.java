@@ -1,9 +1,8 @@
 package hu.lanoga.chat.ui;
 
 
-import com.vaadin.flow.component.login.LoginForm;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.textfield.EmailField;
+import com.vaadin.flow.component.textfield.PasswordField;
 import hu.lanoga.chat.entity.ChatMessage;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
@@ -53,22 +52,28 @@ public class MainView extends VerticalLayout {
 
     private void doLogin()
     {
-        LoginForm component = new LoginForm();
-        component.addLoginListener(e -> {
-            boolean isAuthenticated = true;
-            if (isAuthenticated) {
-                remove(component);
-                askUsername();
-            } else {
-                component.setError(true);
-            }
+        VerticalLayout layout = new VerticalLayout();
+        TextField usernameField = new TextField("User Name");
+        PasswordField passwordField = new PasswordField("Password");
+        Button loginButton = new Button("Log in");
+        Button fPasswordButton = new Button("Forgot my password");
+        layout.add(usernameField, passwordField, loginButton, fPasswordButton);
+
+        add(layout);
+
+        loginButton.addClickListener(click -> {
+
+            //authentication
+
+            username = usernameField.getValue();
+            remove(layout);
+            showChat();
         });
 
-        component.addForgotPasswordListener(click -> {
+        fPasswordButton.addClickListener(e -> {
             requestPassword();
-
         });
-        add(component);
+
     }
 
     private void requestPassword() {
@@ -81,22 +86,7 @@ public class MainView extends VerticalLayout {
         add(layout);
 
         submitButton.addClickListener(click -> {
-
-        });
-    }
-
-    private void askUsername() {
-
-        HorizontalLayout layout = new HorizontalLayout();
-        TextField usernameField = new TextField();
-        Button startButton = new Button("Start chat");
-        layout.add(usernameField, startButton);
-        add(layout);
-
-        startButton.addClickListener(click -> {
-            username = usernameField.getValue();
-            remove(layout);
-            showChat();
+            //send the email
         });
     }
 
