@@ -1,6 +1,10 @@
 package hu.lanoga.chat.ui;
 
 
+import com.vaadin.flow.component.Key;
+import com.vaadin.flow.component.ShortcutEvent;
+import com.vaadin.flow.component.ShortcutEventListener;
+import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.listbox.ListBox;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
@@ -24,6 +28,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.UnicastProcessor;
 
 import java.awt.*;
+import java.awt.event.FocusListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,17 +59,18 @@ public class MainView extends VerticalLayout {
     }
 
     private String username;
-    private static List<String> users = new ArrayList<String>();
+    private static List<String> users = new ArrayList<>();
 
     private void doLogin()
     {
         VerticalLayout layout = new VerticalLayout();
+
         TextField usernameField = new TextField("User Name");
         PasswordField passwordField = new PasswordField("Password");
         Button loginButton = new Button("Log in");
         Button fPasswordButton = new Button("Forgot my password");
-        layout.add(usernameField, passwordField, loginButton, fPasswordButton);
 
+        layout.add(usernameField, passwordField, loginButton, fPasswordButton);
         add(layout);
 
         loginButton.addClickListener(click -> {
@@ -73,7 +79,7 @@ public class MainView extends VerticalLayout {
             users.add(usernameField.getValue());
             username = usernameField.getValue();
             remove(layout);
-            showChat();
+            createChat();
         });
 
         fPasswordButton.addClickListener(e -> {
@@ -84,6 +90,7 @@ public class MainView extends VerticalLayout {
 
     private void requestPassword() {
         HorizontalLayout layout = new HorizontalLayout();
+
         EmailField emailField = new EmailField();
         emailField.setPlaceholder("Your email address");
         Button submitButton = new Button("Request new password");
@@ -96,11 +103,17 @@ public class MainView extends VerticalLayout {
         });
     }
 
-    private void showChat(){
-        MessageList messageList = new MessageList();
-        add(messageList, createInputLayout(), createAsideLayout());
-        expand(messageList);
+    private void createChat(){
+        HorizontalLayout center = new HorizontalLayout();
 
+        MessageList messageList = new MessageList();
+
+        center.setWidth("100%");
+        center.add(createAsideLayout(), messageList);
+        center.setFlexGrow(1, createAsideLayout());
+
+        add(center, createInputLayout());
+        expand(center);
 
         messages.subscribe(message -> {
             getUI().ifPresent(ui ->
@@ -111,17 +124,7 @@ public class MainView extends VerticalLayout {
                             )
                     ));
         });
-    }
 
-    private Component createAsideLayout() {
-        VerticalLayout layout = new VerticalLayout();
-
-        ListBox<String> listBox = new ListBox<>();
-
-        listBox.setItems(users);
-
-        layout.add(listBox);
-        return layout;
     }
 
     private Component createInputLayout() {
@@ -136,12 +139,31 @@ public class MainView extends VerticalLayout {
         layout.expand(messageField);
 
         sendButton.addClickListener(click -> {
-            publisher.onNext(new ChatMessage(username, messageField.getValue()));
-            messageField.clear();
-            messageField.focus();
+            if(messageField.getValue() != null && messageField.getValue() != "") {
+                publisher.onNext(new ChatMessage(username, messageField.getValue()));
+                messageField.clear();
+                messageField.focus();
+            }
         });
+        sendButton.addClickShortcut(Key.ENTER);
+
         messageField.focus();
 
+        return layout;
+    }
+
+    private Component createAsideLayout() {
+        VerticalLayout layout = new VerticalLayout();
+
+        H3 listLabel = new H3();
+        ListBox<String> listBox = new ListBox<>();
+
+        listLabel.setText("Users");
+        listBox.setItems(users);
+
+
+        layout.setWidth("200px");
+        layout.add(listLabel, listBox);
         return layout;
     }
 
