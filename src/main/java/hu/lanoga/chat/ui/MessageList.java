@@ -1,4 +1,4 @@
-package hu.lanoga.chat.spring;
+package hu.lanoga.chat.ui;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.Div;
