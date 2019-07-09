@@ -8,7 +8,6 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,10 +17,12 @@ public class LoginView
 
     public String username;
     public static List<String> users = new ArrayList<>();
+    public VerticalLayout main;
 
 
-    public LoginView()
+    public LoginView(VerticalLayout main)
     {
+        this.main = main;
     }
 
     public Component CreateLogin()
@@ -40,6 +41,7 @@ public class LoginView
             users.add(usernameField.getValue());
             username = usernameField.getValue();
             layout.setVisible(false);
+            main.setVisible(true);
         });
 
         fPasswordButton.addClickListener(e -> {
@@ -64,5 +66,13 @@ public class LoginView
         });
 
         return layout;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public static List<String> getUsers() {
+        return users;
     }
 }

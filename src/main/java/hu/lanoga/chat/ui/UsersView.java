@@ -33,5 +33,4 @@ public class UsersView
 
         return layout;
     }
-
 }
