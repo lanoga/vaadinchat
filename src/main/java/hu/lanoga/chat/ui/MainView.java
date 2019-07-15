@@ -17,8 +17,8 @@ import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.PWA;
-//import hu.lanoga.chat.service.ChatMessageService;
-//import org.springframework.beans.factory.annotation.Autowired;
+import hu.lanoga.chat.service.ChatMessageService;
+import org.springframework.beans.factory.annotation.Autowired;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.UnicastProcessor;
 
@@ -31,14 +31,13 @@ public class MainView extends VerticalLayout {
     public final UnicastProcessor<ChatMessage> publisher;
     public final Flux<ChatMessage> messages;
 
-    //@Autowired
-    //private ChatMessageService chatMessageService;
+    @Autowired
+    private ChatMessageService chatMessageService;
 
     public MainView(UnicastProcessor<ChatMessage> publisher,
                     Flux<ChatMessage> messages) {
         this.publisher = publisher;
         this.messages = messages;
-
         setSizeFull();
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
         addClassName("main-view");

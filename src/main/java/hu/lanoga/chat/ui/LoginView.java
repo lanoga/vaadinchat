@@ -1,7 +1,9 @@
 package hu.lanoga.chat.ui;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
@@ -34,6 +36,8 @@ public class LoginView
         Button loginButton = new Button("Log in");
         Button fPasswordButton = new Button("Forgot my password");
 
+        loginButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
         layout.add(usernameField, passwordField, loginButton, fPasswordButton);
 
         loginButton.addClickListener(click -> {
@@ -43,6 +47,7 @@ public class LoginView
             layout.setVisible(false);
             main.setVisible(true);
         });
+        loginButton.addClickShortcut(Key.ENTER);
 
         fPasswordButton.addClickListener(e -> {
             layout.add(ForgottenPassword());

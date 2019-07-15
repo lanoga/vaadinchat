@@ -1,4 +1,4 @@
-/*package hu.lanoga.chat.service;
+package hu.lanoga.chat.service;
 
 import hu.lanoga.chat.entity.ChatMessage;
 import hu.lanoga.chat.repository.ChatMessageRepository;
@@ -11,7 +11,7 @@ import java.util.List;
 public class ChatMessageService {
 
     @Autowired
-    ChatMessageRepository chatMessageRepository;
+    private ChatMessageRepository chatMessageRepository;
 
     public List<ChatMessage> getAll(){
         return chatMessageRepository.findAll();
@@ -19,4 +19,4 @@ public class ChatMessageService {
 
 
 }
-*/
+
