@@ -2,8 +2,9 @@ package hu.lanoga.chat.entity;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Set;
 
-@Entity // TODO add spring data jpa dependency, postgresql driver,
+@Entity
 @Table(name = "chat_message")
 public class ChatMessage {
 
@@ -20,6 +21,10 @@ public class ChatMessage {
     @Column(name = "created", nullable = false)
     private Timestamp created;
 
+    /*@ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private ChatUser chatUser;*/
+
     public ChatMessage() {
     }
 
@@ -29,6 +34,8 @@ public class ChatMessage {
         this.message = message;
         //this.created = created;
     }
+
+
 
     public Long getId() {
         return msg_id;

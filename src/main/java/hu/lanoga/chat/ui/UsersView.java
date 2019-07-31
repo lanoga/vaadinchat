@@ -4,20 +4,21 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.listbox.ListBox;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import hu.lanoga.chat.service.ChatUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class UsersView
 {
 
-    public List<String> users = new ArrayList<>();
+    //@Autowired
+    //private ChatUserService chatUserService;
 
-    public UsersView(List<String> users)
+    public UsersView()
     {
-        this.users = users;
     }
 
+    @Autowired
     public Component CreateUsers()
     {
         VerticalLayout layout = new VerticalLayout();
@@ -26,7 +27,7 @@ public class UsersView
         ListBox<String> listBox = new ListBox<>();
 
         listLabel.setText("Users");
-        listBox.setItems(users);
+        listBox.setItems("admin", "user");
 
         layout.setWidth("200px");
         layout.add(listLabel, listBox);

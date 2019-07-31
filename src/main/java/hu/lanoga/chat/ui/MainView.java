@@ -17,27 +17,25 @@ import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.PWA;
-import hu.lanoga.chat.service.ChatMessageService;
-import org.springframework.beans.factory.annotation.Autowired;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.UnicastProcessor;
 
+@Route //value = MainView.ROUTE
 @StyleSheet("frontend://styles/styles.css")
-@Route
 @PWA(name = "Vaadin Chat with Spring", shortName = "Vaadin Chat")
 @Push
 public class MainView extends VerticalLayout {
 
-    public final UnicastProcessor<ChatMessage> publisher;
-    public final Flux<ChatMessage> messages;
+    public static final String ROUTE = "Chat";
 
-    @Autowired
-    private ChatMessageService chatMessageService;
+    private final UnicastProcessor<ChatMessage> publisher;
+    private final Flux<ChatMessage> messages;
 
     public MainView(UnicastProcessor<ChatMessage> publisher,
                     Flux<ChatMessage> messages) {
         this.publisher = publisher;
         this.messages = messages;
+
         setSizeFull();
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
         addClassName("main-view");
@@ -45,26 +43,23 @@ public class MainView extends VerticalLayout {
         VerticalLayout main = new VerticalLayout();
         HorizontalLayout center = new HorizontalLayout();
 
-        LoginView loginView = new LoginView(main);
-        UsersView usersView = new UsersView(loginView.getUsers());
+        UsersView usersView = new UsersView();
 
         center.setWidth("100%");
         center.add(usersView.CreateUsers(), CreateChat());
         center.setFlexGrow(1, usersView.CreateUsers());
         expand(center);
-        main.setVisible(false);
-
         H1 header = new H1("Vaadin Chat");
         header.getElement().getThemeList().add("dark");
 
         main.setWidth("100%");
-        add(header, loginView.CreateLogin());
-        main.add(center, CreateInput(loginView.getUsername()));
+        add(header);
+        main.add(center, CreateInput());
         add(main);
         expand(main);
     }
 
-    public Component CreateChat()
+    private Component CreateChat()
     {
         MessageList messageList = new MessageList();
 
@@ -83,21 +78,22 @@ public class MainView extends VerticalLayout {
         return messageList;
     }
 
-    public Component CreateInput(String username)
+    private Component CreateInput()
     {
         HorizontalLayout layout = new HorizontalLayout();
 
         TextField messageField = new TextField();
         Button sendButton = new Button("Send");
         sendButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        messageField.setWidth("70%");
 
         layout.add(messageField, sendButton);
         layout.expand(messageField);
-        layout.setWidth("70%");
+        layout.setWidth("100%");
 
         sendButton.addClickListener(click -> {
             if(messageField.getValue() != null && messageField.getValue() != "") {
-                publisher.onNext(new ChatMessage(username, messageField.getValue()));
+                publisher.onNext(new ChatMessage("admin", messageField.getValue()));
                 messageField.clear();
                 messageField.focus();
             }
@@ -108,6 +104,4 @@ public class MainView extends VerticalLayout {
 
         return layout;
     }
-
-
 }

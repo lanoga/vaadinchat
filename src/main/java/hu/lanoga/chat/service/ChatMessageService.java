@@ -13,7 +13,8 @@ public class ChatMessageService {
     @Autowired
     private ChatMessageRepository chatMessageRepository;
 
-    public List<ChatMessage> getAll(){
+    public List<ChatMessage> getAllMessages(){
+
         return chatMessageRepository.findAll();
     }
 
