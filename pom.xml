@@ -13,16 +13,13 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- Dependencies -->
-        <vaadin.version>13.0.9</vaadin.version>
-
-        <drivers.dir>${project.basedir}/drivers</drivers.dir>
-        <drivers.downloader.phase>pre-integration-test</drivers.downloader.phase>
+        <vaadin.version>14.0.0.rc1</vaadin.version>
     </properties>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.4.RELEASE</version>
+        <version>2.1.6.RELEASE</version>
     </parent>
 
     <pluginRepositories>
@@ -55,13 +52,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <dependency>
-                <groupId>org.springframework.security</groupId>
-                <artifactId>spring-security-bom</artifactId>
-                <version>5.1.5.RELEASE</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -90,34 +80,12 @@
 
         <dependency>
             <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-login-flow</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-notification-flow</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.vaadin</groupId>
             <artifactId>vaadin-core</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-jpa</artifactId>
-            <version>2.1.9.RELEASE</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.microsoft.sqlserver</groupId>
-            <artifactId>mssql-jdbc</artifactId>
-            <version>7.2.2.jre11</version>
         </dependency>
 
         <dependency>
@@ -127,13 +95,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-config</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
     </dependencies>
@@ -143,6 +106,19 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-maven-plugin</artifactId>
+                <version>${vaadin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-frontend</goal>
+                            <goal>build-frontend</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

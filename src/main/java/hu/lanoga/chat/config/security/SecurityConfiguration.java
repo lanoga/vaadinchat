@@ -2,23 +2,23 @@ package hu.lanoga.chat.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableWebSecurity
 @Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private static final String LOGIN_PROCESSING_URL = "/welcome";
-    private static final String LOGIN_FAILURE_URL = "/welcome?error";
-    private static final String LOGIN_URL = "/welcome";
-    private static final String LOGOUT_SUCCESS_URL = "/welcome";
+    private static final String LOGIN_PROCESSING_URL = "/login";
+    private static final String LOGIN_FAILURE_URL = "/login?error";
+    private static final String LOGIN_URL = "/login";
+    private static final String LOGOUT_SUCCESS_URL = "/login";
 
     /**
      * Require login to access internal pages and configure login form.
@@ -49,7 +49,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and().logout().logoutSuccessUrl(LOGOUT_SUCCESS_URL);
     }
 
-    @Bean
+
+    /*@Bean
     @Override
     public UserDetailsService userDetailsService() {
         UserDetails user =
@@ -59,7 +60,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         .build();
 
         return new InMemoryUserDetailsManager(user);
-    }
+    }*/
 
     /**
      * Allows access to static resources, bypassing Spring security.
@@ -98,5 +99,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 "/frontend-es5/**", "/frontend-es6/**");
     }
 
+    @Bean
+    public PasswordEncoder encoder() {
+        return new BCryptPasswordEncoder(11);
+    }
 }
-

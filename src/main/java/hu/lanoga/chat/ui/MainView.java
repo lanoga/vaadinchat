@@ -26,7 +26,7 @@ import reactor.core.publisher.UnicastProcessor;
 @Push
 public class MainView extends VerticalLayout {
 
-    public static final String ROUTE = "Chat";
+    //public static final String ROUTE = "Chat";
 
     private final UnicastProcessor<ChatMessage> publisher;
     private final Flux<ChatMessage> messages;

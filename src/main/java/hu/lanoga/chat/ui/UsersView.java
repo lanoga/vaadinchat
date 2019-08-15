@@ -4,7 +4,6 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.listbox.ListBox;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import hu.lanoga.chat.service.ChatUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 

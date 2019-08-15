@@ -25,13 +25,10 @@ public class ChatUser {
     private String username;
 
 
-    @Column(name = "passwordHash", nullable = false)
-    private String passwordHash;
+    private String password;
 
-    @Column(name = "role", nullable = false)
-    private String role;
 
-    public ChatUser(){
+    public ChatUser() {
 
     }
 
@@ -59,24 +56,11 @@ public class ChatUser {
         this.username = username;
     }
 
-    public String getPasswordHash() {
-        return passwordHash;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), email, username, role);
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

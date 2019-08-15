@@ -13,7 +13,6 @@ import reactor.core.publisher.UnicastProcessor;
  * The entry point of the Spring Boot application.
  */
 @SpringBootApplication
-@EnableJpaRepositories("hu.lanoga.chat.repository")
 public class Application extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
